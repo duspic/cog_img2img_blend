@@ -48,8 +48,8 @@ class Predictor(BasePredictor):
             default="A fantasy landscape, trending on artstation",
         ),
         negative_prompt: str = Input(
-            description="The prompt NOT to guide the image generation. Ignored when not using guidance",
-            default=None,
+            description="Negative prompt",
+            default="semi-realistic, cgi, 3d, render, sketch, cartoon, drawing, poorly drawn, lowres, bad quality, worst quality, unrealistic, overexposed, underexposed",
         ),
         image: Path = Input(
             description="Image generated with controlnet, overlaid with the original object",
