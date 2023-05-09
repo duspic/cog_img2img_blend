@@ -17,7 +17,7 @@ from diffusers import (
 from PIL import Image
 from cog import BasePredictor, Input, Path
 
-MODEL_ID = "stabilityai/stable-diffusion-2-1"
+MODEL_ID = "SG161222/Realistic_Vision_V2.0"
 MODEL_CACHE = "diffusers-cache"
 
 
