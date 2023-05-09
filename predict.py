@@ -28,7 +28,7 @@ class Predictor(BasePredictor):
         self.txt2img_pipe = StableDiffusionPipeline.from_pretrained(
             MODEL_ID,
             cache_dir=MODEL_CACHE,
-            local_files_only=True,
+            local_files_only=False,
         ).to("cuda")
         self.img2img_pipe = StableDiffusionImg2ImgPipeline(
             vae=self.txt2img_pipe.vae,
