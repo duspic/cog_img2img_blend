@@ -45,7 +45,6 @@ class Predictor(BasePredictor):
         self,
         prompt: str = Input(
             description="Input prompt",
-            default="A fantasy landscape, trending on artstation",
         ),
         negative_prompt: str = Input(
             description="Negative prompt",
@@ -120,7 +119,8 @@ class Predictor(BasePredictor):
             output_paths.append(Path(output_path))
             
             b_output_path = f"/tmp/out-{i}_blended.png"
-            blended = utils.blend(sample, noback_image)
+            gen_img = Image.open(sample)
+            blended = utils.blend(gen_img, noback_image)
             blended.save(b_output_path)
             output_paths.append(Path(output_path))
 
