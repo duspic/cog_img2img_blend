@@ -56,16 +56,6 @@ class Predictor(BasePredictor):
         noback_image: Path = Input(
             description="The original object image, with removed background",
         ),
-        width: int = Input(
-            description="Width of output image. Maximum size is 1024x768 or 768x1024 because of memory limits",
-            choices=[128, 256, 384, 448, 512, 576, 640, 704, 768, 832, 896, 960, 1024],
-            default=512,
-        ),
-        height: int = Input(
-            description="Height of output image. Maximum size is 1024x768 or 768x1024 because of memory limits",
-            choices=[128, 256, 384, 448, 512, 576, 640, 704, 768, 832, 896, 960, 1024],
-            default=512,
-        ),
         prompt_strength: float = Input(
             description="Prompt strength when providing the image. 1.0 corresponds to full destruction of information in init image",
             default=0.1,
@@ -114,9 +104,6 @@ class Predictor(BasePredictor):
 
         output_paths = []
         for i, sample in enumerate(output.images):
-            output_path = f"/tmp/out-{i}.png"
-            sample.save(output_path)
-            output_paths.append(Path(output_path))
             
             b_output_path = f"/tmp/out-{i}_blended.png"
             noback = Image.open(noback_image)
