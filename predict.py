@@ -119,6 +119,10 @@ class Predictor(BasePredictor):
             output_paths.append(Path(output_path))
             
             b_output_path = f"/tmp/out-{i}_blended.png"
+            print(20*"#")
+            print(sample)
+            print(type(sample))
+            print(20*"#")
             gen_img = Image.open(sample)
             blended = utils.blend(gen_img, noback_image)
             blended.save(b_output_path)
