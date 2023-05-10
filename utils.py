@@ -13,5 +13,5 @@ def erode_mask(noback, width, height):
   white_object = enhancer.enhance(100)
   mask.paste(white_object, mask=white_object)
 
-  mask = mask.filter(ImageFilter.MinFilter(11))
+  mask = mask.filter(ImageFilter.MinFilter(15))
   return mask
