@@ -122,7 +122,7 @@ class Predictor(BasePredictor):
             noback = Image.open(noback_image)
             blended = utils.blend(sample, noback)
             blended.save(b_output_path)
-            output_paths.append(Path(output_path))
+            output_paths.append(Path(b_output_path))
 
         return output_paths
         
