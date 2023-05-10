@@ -4,6 +4,7 @@ def blend(gen_img, noback_img):
     width, height = gen_img.size
     mask = erode_mask(noback_img, width, height)
     gen_img.paste(noback_img, mask=mask)
+    return gen_img
 
 
 def erode_mask(noback, width, height):
