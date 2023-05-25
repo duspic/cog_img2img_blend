@@ -17,7 +17,7 @@ from diffusers import (
 from PIL import Image
 from cog import BasePredictor, Input, Path
 
-MODEL_ID = "SG161222/Realistic_Vision_V2.0"
+MODEL_ID = "ducnapa/childrens_stories_v1_semireal"
 MODEL_CACHE = "diffusers-cache"
 
 
@@ -44,21 +44,18 @@ class Predictor(BasePredictor):
     def predict(
         self,
         prompt: str = Input(
-            description="Input prompt",
+            description='Brielfy describe the visual aspects of the person on the picture. For example "Blonde boy dressed as a fireman"',
         ),
         negative_prompt: str = Input(
             description="Negative prompt",
-            default="semi-realistic, cgi, 3d, render, sketch, cartoon, drawing, poorly drawn, lowres, bad quality, worst quality, unrealistic, overexposed, underexposed",
+            default="NSFW, sexy, adult, blurry, grainy, underexposed, overexposed, worst quality, wrong anatomy",
         ),
         image: Path = Input(
-            description="Image generated with controlnet, overlaid with the original object",
-        ),
-        noback_image: Path = Input(
-            description="The original object image, with removed background",
+            description="Input picture, without background",
         ),
         prompt_strength: float = Input(
             description="Prompt strength when providing the image. 1.0 corresponds to full destruction of information in init image",
-            default=0.1,
+            default=0.2,
         ),
         num_outputs: int = Input(
             description="Number of images to output. Higher number of outputs may OOM.",
@@ -70,7 +67,7 @@ class Predictor(BasePredictor):
             description="Number of denoising steps", ge=1, le=500, default=20
         ),
         guidance_scale: float = Input(
-            description="Scale for classifier-free guidance", ge=1, le=20, default=1
+            description="Scale for classifier-free guidance", ge=1, le=20, default=8
         ),
         scheduler: str = Input(
             default="K_EULER_ANCESTRAL",
@@ -87,8 +84,11 @@ class Predictor(BasePredictor):
         print(f"Using seed: {seed}")
 
         pipe = self.img2img_pipe
+        
+        white_back_img = utils.overlay(Image.open(image))
+        
         extra_kwargs = {
-            "image": Image.open(image).convert("RGB"),
+            "image": white_back_img,
             "strength": prompt_strength,
         }
         pipe.scheduler = make_scheduler(scheduler, pipe.scheduler.config)
@@ -104,12 +104,9 @@ class Predictor(BasePredictor):
 
         output_paths = []
         for i, sample in enumerate(output.images):
-            
-            b_output_path = f"/tmp/out-{i}_blended.png"
-            noback = Image.open(noback_image)
-            blended = utils.blend(sample, noback)
-            blended.save(b_output_path)
-            output_paths.append(Path(b_output_path))
+            output_path = f"/tmp/out-{i}.png"
+            sample.save(output_path)
+            output_paths.append(Path(output_path))
 
         return output_paths
         
