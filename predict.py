@@ -18,7 +18,7 @@ from PIL import Image
 from cog import BasePredictor, Input, Path
 
 #MODEL_ID = "ducnapa/childrens_stories_v1_semireal"
-MODEL_ID = "nitrosocke/Ghibli-Diffusion"
+MODEL_ID = "stablediffusionapi/disney-pixal-cartoon"
 MODEL_CACHE = "diffusers-cache"
 
 
@@ -101,7 +101,7 @@ class Predictor(BasePredictor):
 
         generator = torch.Generator("cuda").manual_seed(seed)
         output = pipe(
-            prompt=[f"ghibli style {prompt}"] * num_outputs if prompt is not None else None,
+            prompt=[prompt] * num_outputs if prompt is not None else None,
             guidance_scale=guidance_scale,
             generator=generator,
             num_inference_steps=num_inference_steps,
