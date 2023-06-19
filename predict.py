@@ -17,7 +17,8 @@ from diffusers import (
 from PIL import Image
 from cog import BasePredictor, Input, Path
 
-MODEL_ID = "ducnapa/childrens_stories_v1_semireal"
+#MODEL_ID = "ducnapa/childrens_stories_v1_semireal"
+MODEL_ID = "nitrosocke/Ghibli-Diffusion"
 MODEL_CACHE = "diffusers-cache"
 
 
@@ -85,6 +86,11 @@ class Predictor(BasePredictor):
 
         pipe = self.img2img_pipe
         
+        # this patch disables NSFW filter
+        def dummy(images, **kwargs):
+            return images, False
+        pipe.safety_checker = dummy
+        
         white_back_img = utils.overlay(Image.open(image))
         
         extra_kwargs = {
@@ -95,10 +101,11 @@ class Predictor(BasePredictor):
 
         generator = torch.Generator("cuda").manual_seed(seed)
         output = pipe(
-            prompt=[prompt] * num_outputs if prompt is not None else None,
+            prompt=[f"ghibli style {prompt}"] * num_outputs if prompt is not None else None,
             guidance_scale=guidance_scale,
             generator=generator,
             num_inference_steps=num_inference_steps,
+            negative_prompt=[negative_prompt] * num_outputs if negative_prompt is not None else None,
             **extra_kwargs,
         )
 
