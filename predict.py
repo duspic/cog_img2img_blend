@@ -98,7 +98,7 @@ class Predictor(BasePredictor):
             "strength": prompt_strength,
         }
         pipe.scheduler = make_scheduler(scheduler, pipe.scheduler.config)
-
+        pipe.load_textual_inversion("./cartoonish_doll.pt", token="<cartoonish_doll>")
         generator = torch.Generator("cuda").manual_seed(seed)
         output = pipe(
             prompt=[prompt] * num_outputs if prompt is not None else None,
