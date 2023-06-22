@@ -31,7 +31,7 @@ class Predictor(BasePredictor):
             MODEL_ID,
             cache_dir=MODEL_CACHE,
             local_files_only=False,
-            vae = AutoencoderKL.from_pretrained('lint/anime_vae')
+            vae = AutoencoderKL.from_pretrained('bullhug/blessed_vae')
         ).to("cuda")
         self.img2img_pipe = StableDiffusionImg2ImgPipeline(
             vae=self.txt2img_pipe.vae,
