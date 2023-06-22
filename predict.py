@@ -13,12 +13,13 @@ from diffusers import (
     EulerDiscreteScheduler,
     EulerAncestralDiscreteScheduler,
     DPMSolverMultistepScheduler,
+    AutoencoderKL
 )
 from PIL import Image
 from cog import BasePredictor, Input, Path
 
 #MODEL_ID = "ducnapa/childrens_stories_v1_semireal"
-MODEL_ID = "TryStar/CloneDiffusion"
+MODEL_ID = "stablediffusionapi/disney-pixal-cartoon"
 MODEL_CACHE = "diffusers-cache"
 
 
@@ -30,6 +31,7 @@ class Predictor(BasePredictor):
             MODEL_ID,
             cache_dir=MODEL_CACHE,
             local_files_only=False,
+            vae = AutoencoderKL.from_pretrained('lint/anime_vae')
         ).to("cuda")
         self.img2img_pipe = StableDiffusionImg2ImgPipeline(
             vae=self.txt2img_pipe.vae,
