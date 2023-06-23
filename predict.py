@@ -17,11 +17,12 @@ from diffusers import (
 )
 from PIL import Image
 from cog import BasePredictor, Input, Path
+MODEL_CACHE = "diffusers-cache"
 
 #MODEL_ID = "ducnapa/childrens_stories_v1_semireal"
 #MODEL_ID = "stablediffusionapi/disney-pixal-cartoon"
-MODEL_ID = "ducnapa/kidsmix"
-MODEL_CACHE = "diffusers-cache"
+MODEL_ID = "ducnapa/cute-cartoon-illustration"
+LORA_ID = "ducnapa/babyface_lora"
 
 
 class Predictor(BasePredictor):
@@ -32,8 +33,9 @@ class Predictor(BasePredictor):
             MODEL_ID,
             cache_dir=MODEL_CACHE,
             local_files_only=False,
-            vae = AutoencoderKL.from_pretrained('bullhug/blessed_vae')
+            vae = AutoencoderKL.from_pretrained('bullhug/blessed_vae'),
         ).to("cuda")
+        self.txt2img_pipe.unet.load_attn_process(LORA_ID)
         self.img2img_pipe = StableDiffusionImg2ImgPipeline(
             vae=self.txt2img_pipe.vae,
             text_encoder=self.txt2img_pipe.text_encoder,
