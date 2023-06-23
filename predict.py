@@ -35,7 +35,7 @@ class Predictor(BasePredictor):
             local_files_only=False,
             vae = AutoencoderKL.from_pretrained('bullhug/blessed_vae'),
         ).to("cuda")
-        self.txt2img_pipe.load_lora_weights(LORA_ID, weight_name="model.safetensors")
+
         self.img2img_pipe = StableDiffusionImg2ImgPipeline(
             vae=self.txt2img_pipe.vae,
             text_encoder=self.txt2img_pipe.text_encoder,
@@ -45,7 +45,8 @@ class Predictor(BasePredictor):
             safety_checker=self.txt2img_pipe.safety_checker,
             feature_extractor=self.txt2img_pipe.feature_extractor,
         ).to("cuda")
-
+        self.img2img_pipe.load_lora_weights(LORA_ID, weight_name="model.safetensors")
+        
     @torch.inference_mode()
     def predict(
         self,
