@@ -93,7 +93,7 @@ class Predictor(BasePredictor):
         
         # this patch disables NSFW filter
         def dummy(images, **kwargs):
-            return images, False
+            return images, None
         pipe.safety_checker = dummy
         
         white_back_img = utils.overlay(Image.open(image))
