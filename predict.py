@@ -20,7 +20,7 @@ from cog import BasePredictor, Input, Path
 
 #MODEL_ID = "ducnapa/childrens_stories_v1_semireal"
 #MODEL_ID = "stablediffusionapi/disney-pixal-cartoon"
-MODEL_ID = "nitrosocke/classic-anim-diffusion"
+MODEL_ID = "nitrosocke/redshift-diffusion"
 MODEL_CACHE = "diffusers-cache"
 
 
