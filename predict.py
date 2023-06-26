@@ -22,7 +22,7 @@ MODEL_CACHE = "diffusers-cache"
 #MODEL_ID = "ducnapa/childrens_stories_v1_semireal"
 #MODEL_ID = "stablediffusionapi/disney-pixal-cartoon"
 MODEL_ID = "ducnapa/cute-cartoon-illustration"
-LORA_ID = "ducnapa/lucy_fleming"
+LORA_ID = "ducnapa/jane_massey"
 
 
 class Predictor(BasePredictor):
