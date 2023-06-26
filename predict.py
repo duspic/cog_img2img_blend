@@ -84,6 +84,10 @@ class Predictor(BasePredictor):
         seed: int = Input(
             description="Random seed. Leave blank to randomize the seed", default=None
         ),
+        lora_weight: float = Input(
+            description="Experimental, to see what difference does it make",
+            default= 1.0
+        )
     ) -> List[Path]:
         """Run a single prediction on the model"""
         if seed is None:
@@ -111,7 +115,7 @@ class Predictor(BasePredictor):
             generator=generator,
             num_inference_steps=num_inference_steps,
             negative_prompt=[negative_prompt] * num_outputs if negative_prompt is not None else None,
-            cross_attention_kwargs={"scale": 1.0},
+            cross_attention_kwargs={"scale": lora_weight},
             **extra_kwargs,
         )
 
