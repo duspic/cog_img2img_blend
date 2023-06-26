@@ -111,6 +111,7 @@ class Predictor(BasePredictor):
             generator=generator,
             num_inference_steps=num_inference_steps,
             negative_prompt=[negative_prompt] * num_outputs if negative_prompt is not None else None,
+            cross_attention_kwargs={"scale": 1.0}
             **extra_kwargs,
         )
 
